@@ -18,6 +18,18 @@ class MyRvAdapter(var list: List<Valyuta>, var context: Context) : RecyclerView.
         fun onBind(user: Valyuta, position: Int ){
             rvItemBinding.tv1.text = user.CcyNm_EN
             rvItemBinding.tv2.text = user.Rate
+            var diff = user.Diff.toDouble()
+
+            if (diff == 0.0){
+                rvItemBinding.image.setImageResource(R.drawable.balance)
+            }else if (diff >= 0.0){
+                rvItemBinding.image.setImageResource(R.drawable.growth)
+            }else{
+                rvItemBinding.image.setImageResource(R.drawable.dollar)
+            }
+
+            rvItemBinding.diff.text = user.Diff
+
 
             rvItemBinding.back.setOnClickListener {
                 val dialog = AlertDialog.Builder(context).create()
@@ -25,7 +37,7 @@ class MyRvAdapter(var list: List<Valyuta>, var context: Context) : RecyclerView.
                 dialog.setView(dialogItemBinding.root)
                 dialogItemBinding.name.text = list[position].Ccy
                 dialogItemBinding.count.text = list[position].Rate + "so'm"
-                dialogItemBinding.news.text  = "Oxirgi Ynagilanish:" + list[position].Date
+                dialogItemBinding.news.text  = "Oxirgi Yangilanish:" + list[position].Date
                 dialogItemBinding.btn.setOnClickListener {
                     dialog.cancel()
                 }
